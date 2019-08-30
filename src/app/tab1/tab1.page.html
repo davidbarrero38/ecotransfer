@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar >
+      <ion-title>Home</ion-title>
+
+
+      <ion-buttons slot="primary">
+        <ion-button (click)="presentActionSheet()">
+          <ion-icon slot="icon-only" name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+
+
+    <h1 class="goodfont title">Ecotransfer</h1>
+    <h1>Cleaning the ocean of plastic 🌎  </h1>
+    <h3 text-center>Kilograms so far</h3>
+    <h1>103</h1>
+    <br><br>
+    <h3 padding>Files to transfer</h3>
+    <ion-row>
+      <ion-col size="3"> 
+          <ion-icon class="ionicon"  color="light" src="assets/svg/pdf.svg"></ion-icon>
+          <p style="text-align: center;max-width:100px" > document.pdf</p>
+      </ion-col>
+      
+      
+    </ion-row>
+    <br><br>
+    <ion-item margin-bottom margin-bottom >
+        <ion-icon  name="images"></ion-icon>
+        <input id="file-upload" placeholder="Seleciona imagen" type="file" accept=".png, .jpg" (change)="onUpload($event)" />
+    </ion-item>
+    
+   
+
+    <br><br><br>
+    <ion-card style="max-width:400px" color="light">
+        <ion-item>
+            <ion-icon name="help-circle" slot="end"></ion-icon>
+            <ion-label> Need help?</ion-label>
+            <ion-button  [routerLink]="['/info ']" fill="outline" slot="end">See</ion-button>
+        </ion-item>
+    
+        <ion-card-content>
+           Check our explanarory tutorial and videos
+        </ion-card-content>
+    </ion-card>
+</ion-content>
