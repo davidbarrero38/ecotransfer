@@ -1,4 +1,4 @@
-import { Component , ElementRef, ViewChild , OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -7,6 +7,12 @@ import { ServicesService } from '../services.service';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+
+
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
 
 
 @Component({
@@ -22,22 +28,31 @@ export class Tab1Page implements OnInit {
   uploadPercent: Observable<number>;
   urlImage: Observable<string>;
 
+  fileTransfer: FileTransferObject;
+
   file2: string;
   files = [];
   type: string;
   uid: string;
 
 
-    constructor(private afs: AngularFireStorage,
-      public service: ServicesService  , public loadingController: LoadingController , private aut: AngularFireAuth,
-      public actionSheetController: ActionSheetController, private router: Router ) {
-      }
-    ngOnInit() {
-      this.logueado();
-      setTimeout(() => {
-        this.getfiles();
-      }, 1500);
-    }
+  constructor(private afs: AngularFireStorage,
+    public service: ServicesService,
+    public loadingController: LoadingController,
+    private aut: AngularFireAuth,
+    private transfer: FileTransfer,
+    private file: File,
+    private filePath: FilePath,
+    private fileChooser: FileChooser,
+    public actionSheetController: ActionSheetController,
+    private router: Router) {
+  }
+  ngOnInit() {
+    this.logueado();
+    setTimeout(() => {
+      this.getfiles();
+    }, 1500);
+  }
 
   async signOut() {
     const res = await this.aut.auth.signOut();
@@ -114,7 +129,7 @@ export class Tab1Page implements OnInit {
     this.uploadPercent = task.percentageChanges();
     this.presentLoading();
     task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-    console.log(file.name , file.type );
+    console.log(file.name, file.type);
     this.file2 = file.name;
     this.type = file.type;
   }
@@ -122,12 +137,14 @@ export class Tab1Page implements OnInit {
   agregar() {
     const image = this.inputimageProd.nativeElement.value;
 
-    this.service.upload( image , this.file2 , this.type);
+    this.service.upload(image, this.file2, this.type);
   }
 
   donwload(url) {
     console.log(url);
-
+    this.fileTransfer.download(url, this.file.externalRootDirectory + 'Download').then((data) => {
+      alert('Descarga Exitosa');
+    });
   }
 
 

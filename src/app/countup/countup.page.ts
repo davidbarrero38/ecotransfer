@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-countup',
-  templateUrl: './countup.component.html',
-  styleUrls: ['./countup.component.scss']
+  templateUrl: './countup.page.html',
+  styleUrls: ['./countup.page.scss'],
 })
-export class CountupComponent implements OnInit {
+export class CountupPage implements OnInit {
 
   constructor() { }
 
