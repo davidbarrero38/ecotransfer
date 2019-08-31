@@ -24,13 +24,14 @@ export class ServicesService {
           if (!user) {
           } else {
             this.uid = user.uid;
+            console.log(this.uid);
           }
         }
       );
   }
 
-  get_all_files() {
-    this.itemsCollection = this.afs.collection<any>(this.uid);
+  get_all_files(uid) {
+    this.itemsCollection = this.afs.collection<any>(uid);
 
     return this.itemsCollection.snapshotChanges().pipe(map((info: any[]) => {
       this.files = [];
@@ -38,9 +39,21 @@ export class ServicesService {
       for (const infos of info) {
         this.files.unshift(infos);
       }
-
+      console.log(this.files);
       return this.files;
     }));
+  }
+
+  upload(url , name, type) {
+    return new Promise<any>((resolve, reject) => {
+      this.afs.collection(this.uid).add({
+        url: url,
+        name: name,
+        type: type,
+        uid: this.uid,
+        date: Date.now()
+      });
+    });
   }
 
 }

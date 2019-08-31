@@ -94,4 +94,5 @@
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
         <variable name="URL_SCHEME" value="io.ionic.starter" />
     </plugin>
+    <plugin name="cordova-plugin-file" spec="^6.0.2" />
 </widget>

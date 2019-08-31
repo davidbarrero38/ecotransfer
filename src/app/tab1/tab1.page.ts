@@ -1,4 +1,4 @@
-import { Component , ElementRef, ViewChild  } from '@angular/core';
+import { Component , ElementRef, ViewChild , OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,32 +14,55 @@ import { finalize } from 'rxjs/operators';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
   @ViewChild('imageProd') inputimageProd: ElementRef;
-
-  nombre: string;
-  anuncio: string;
-  id: string;
-  precio: Number;
-  telf: Number;
-  cargando = false;
   @ViewChild('filechooser') fileChooserElementRef: ElementRef;
 
   uploadPercent: Observable<number>;
   urlImage: Observable<string>;
 
+  file2: string;
+  files = [];
+  type: string;
+  uid: string;
+
 
     constructor(private afs: AngularFireStorage,
-      private service: ServicesService  , public loadingController: LoadingController , private aut: AngularFireAuth,
-      public actionSheetController: ActionSheetController, private router: Router) {
-
+      public service: ServicesService  , public loadingController: LoadingController , private aut: AngularFireAuth,
+      public actionSheetController: ActionSheetController, private router: Router ) {
       }
+    ngOnInit() {
+      this.logueado();
+      setTimeout(() => {
+        this.getfiles();
+      }, 1500);
+    }
 
   async signOut() {
     const res = await this.aut.auth.signOut();
     console.log(res);
     this.router.navigateByUrl('/login');
+  }
+  logueado() {
+    this.aut.authState
+      .subscribe(
+        user => {
+          if (!user) {
+          } else {
+            this.uid = user.uid;
+            console.log(this.uid);
+          }
+        }
+      );
+  }
+
+
+  getfiles() {
+    this.service.get_all_files(this.uid).subscribe((data: any) => {
+      console.log(data);
+      this.files = data;
+    });
   }
 
   async presentActionSheet() {
@@ -85,23 +108,27 @@ export class Tab1Page {
 
     const id = Math.random().toString(36).substring(2);
     const file = e.target.files[0];
-    const filePath = `image/pic_${id}`;
+    const filePath = `${id}`;
     const ref = this.afs.ref(filePath);
     const task = this.afs.upload(filePath, file);
     this.uploadPercent = task.percentageChanges();
     this.presentLoading();
     task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+    console.log(file.name , file.type );
+    this.file2 = file.name;
+    this.type = file.type;
   }
 
-  agregar(nombre, anuncio, precio, telf) {
+  agregar() {
     const image = this.inputimageProd.nativeElement.value;
-    const data = {
-      nombre: nombre,
-      anuncio: anuncio,
-      precio: precio,
-      telefono: telf,
-      img: image
-    };
-    console.log(data);
+
+    this.service.upload( image , this.file2 , this.type);
   }
+
+  donwload(url) {
+    console.log(url);
+
+  }
+
+
 }

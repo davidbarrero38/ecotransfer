@@ -1,1 +1,24 @@
 
+  h4 {
+    color:#222428;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #232B38;
+  }
+  
+  h3 {
+    color: #C5CCCD;
+    font-weight: 500;
+  }
+
+@media screen and (min-width: 700px) {
+    ion-card {
+        max-width: 400px;
+    }
+  }
+ 
