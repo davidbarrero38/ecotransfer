@@ -20,7 +20,7 @@
   <h1>103</h1>
   <br><br>
   <h3 padding>Files to transfer</h3>
-  
+
   <ion-row>
     <ion-col *ngFor="let item of files" size="3" (click)="donwload(item.payload.doc.data().url)">
       <img *ngIf="item.payload.doc.data().type === 'image/jpeg' || item.payload.doc.data().type === 'image/png' "
@@ -40,10 +40,17 @@
 
   <div margin-bottom margin-top text-center>
     <label class="custom-file-upload">
-      <input type="file" id="file-upload" />
+      <input id="file-upload" placeholder="Seleciona imagen" type="file" accept=".png, .jpg"
+      (change)="onUpload($event)" />
       <ion-icon margin-right name="cloud-download"></ion-icon> Seleccionar Archivo
     </label>
   </div>
+
+  <!-- <ion-item margin-bottom margin-bottom>
+    <ion-icon name="images"></ion-icon>
+    <input id="file-upload" placeholder="Seleciona imagen" type="file" accept=".png, .jpg"
+      (change)="onUpload($event)" />
+  </ion-item> -->
 
 
 

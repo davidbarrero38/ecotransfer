@@ -75,7 +75,7 @@ export class Tab1Page implements OnInit {
 
   getfiles() {
     this.service.get_all_files(this.uid).subscribe((data: any) => {
-      console.log(data);
+      // console.log(data.payload.doc.data().img);
       this.files = data;
     });
   }
@@ -137,12 +137,14 @@ export class Tab1Page implements OnInit {
   agregar() {
     const image = this.inputimageProd.nativeElement.value;
 
+    console.log(image, this.file2, this.type);
+
     this.service.upload(image, this.file2, this.type);
   }
 
   donwload(url) {
     console.log(url);
-    this.fileTransfer.download(url, this.file.externalRootDirectory + 'Download').then((data) => {
+    this.fileTransfer.download(url, this.file.externalRootDirectory + 'Descargas').then((data) => {
       alert('Descarga Exitosa');
     });
   }
