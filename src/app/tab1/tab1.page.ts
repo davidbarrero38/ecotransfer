@@ -2,9 +2,8 @@ import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, Platform } from '@ionic/angular';
 import { ServicesService } from '../services.service';
-
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 
@@ -13,6 +12,9 @@ import { File } from '@ionic-native/file/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
+
+
+declare var window;
 
 
 @Component({
@@ -42,6 +44,7 @@ export class Tab1Page implements OnInit {
     private aut: AngularFireAuth,
     private transfer: FileTransfer,
     private file: File,
+    private plt: Platform,
     private filePath: FilePath,
     private fileChooser: FileChooser,
     public actionSheetController: ActionSheetController,
@@ -143,10 +146,19 @@ export class Tab1Page implements OnInit {
   }
 
   donwload(url) {
-    console.log(url);
-    this.fileTransfer.download(url, this.file.externalRootDirectory + 'Descargas').then((data) => {
-      alert('Descarga Exitosa');
-    });
+
+    if (this.plt.is('android')) {
+      console.log(url);
+      this.fileTransfer.download(url, this.file.dataDirectory).then((data) => {
+        alert('Descarga Exitosa' + data.toUrl);
+      }, error => {
+        alert('error' + error);
+      });
+    } else {
+      window.open(url, '_blank');
+    }
+
+
   }
 
 
