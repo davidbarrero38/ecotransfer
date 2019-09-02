@@ -21,27 +21,32 @@
   <br><br>
   <h3 padding>Files to transfer</h3>
 
+
+
   <ion-row>
-    <ion-col *ngFor="let item of files" size="3" (click)="donwload(item.payload.doc.data().url)">
-      <img *ngIf="item.payload.doc.data().type === 'image/jpeg' || item.payload.doc.data().type === 'image/png' "
-        src="{{item.payload.doc.data().url}}">
-      <ion-icon *ngIf="item.payload.doc.data().type !== 'image/jpeg' && item.payload.doc.data().type !== 'image/png' "
-        class="ionicon" color="light" [src]="'assets/svg/' + item.payload.doc.data().name.slice(-3)  + '.svg'">
-      </ion-icon>
+    <ion-col  *ngFor="let item of files" size="3" (click)="donwload(item.payload.doc.data().url)">
+      <ion-card text-center style="padding:10px;">
+        <img width="250px" height="250px"
+          *ngIf="item.payload.doc.data().type === 'image/jpeg' || item.payload.doc.data().type === 'image/png' "
+          src="{{item.payload.doc.data().url}}">
+        <ion-icon *ngIf="item.payload.doc.data().type !== 'image/jpeg' && item.payload.doc.data().type !== 'image/png' "
+          class="ionicon" color="light" [src]="'assets/svg/' + item.payload.doc.data().name.slice(-3)  + '.svg'">
+        </ion-icon>
 
-      <p style="text-align: center;max-width:100px"> {{ item.payload.doc.data().name }}</p>
-
+        <p style="margin:auto; max-width:100px"> {{ item.payload.doc.data().name }}</p>
+      </ion-card>
     </ion-col>
-
-
   </ion-row>
+
+
+
   <br><br>
 
 
   <div margin-bottom margin-top text-center>
-    <label class="custom-file-upload">
+    <label class="custom-file-upload" style="margin:auto;max-width:400px">
       <input id="file-upload" placeholder="Seleciona imagen" type="file" accept=".png, .jpg"
-      (change)="onUpload($event)" />
+        (change)="onUpload($event)" />
       <ion-icon margin-right name="cloud-download"></ion-icon> Seleccionar Archivo
     </label>
   </div>
@@ -59,13 +64,13 @@
   <input #imageProd type="hidden" [value]="urlImage | async" style="color:black;">
 
 
-  <ion-button size="large" (click)="agregar()" class="main-container" color="light" expand="block">Upload file
+  <ion-button style="margin:auto;max-width:400px" size="large" (click)="agregar()" class="main-container" color="light" expand="block">Upload file
   </ion-button>
 
 
 
   <br><br><br>
-  <ion-card style="max-width:400px" color="light">
+  <ion-card style="margin:auto;max-width:400px" color="light">
     <ion-item>
       <ion-icon name="help-circle" slot="end"></ion-icon>
       <ion-label> Need help?</ion-label>
